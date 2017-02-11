@@ -14,7 +14,8 @@ You shouldn't, if you're experienced with sockets. This is a toned-down wrapper 
 
 An example of this being easier: let's say we wanted to make a server that sent a message "Hello!" to all the connected users every second. We need notice if the user is disconnected as well. Here's the code in the regular `socket` module:
 
-```import time
+```python
+import time
 import socket
 import threading
 sock=socket.socket()
@@ -35,18 +36,21 @@ while 1:
 		try:
 			conn.send(bytes("Hello!",encoding='utf-8'))
 		except:
-			print("User has disconnected!")```
+			print("User has disconnected!")
+```
 
 ...and here's the code in the `shoes` module:
 
 
-```import time
+```python
+import time
 import shoes
 sock=shoes.Server("0.0.0.0",11111)
 sock.listen()
 while 1:
 	time.sleep(1)
-	sock.sendall("Hello!")```
+	sock.sendall("Hello!")
+```
 
 A pretty vast difference, huh? It takes up roughly 4x less space than vanilla `socket`.
 
