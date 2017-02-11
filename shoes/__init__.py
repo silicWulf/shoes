@@ -8,7 +8,7 @@ class Socket:
 	def __init__(self,ip,port):
 		self.ip = ip
 		self.port = port
-		self.sock = socket.socket()
+		self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.sock.bind((self.ip, self.port))
 	def send(self,message):
 		try:
@@ -22,11 +22,11 @@ class Socket:
 
 
 class Server:
-	def __init__(self,ip,port,user_count=0,connections=[]):
+	def __init__(self,ip,port):
 		self.ip = ip
 		self.port = port
-		self.user_count = user_count
-		self.connections = connections
+		self.user_count = 0
+		self.connections = []
 		self.sock = socket.socket()
 		self.stoplistening = 0
 		self.nowstopped = 0
