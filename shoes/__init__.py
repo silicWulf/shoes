@@ -13,14 +13,12 @@ class Socket:
 	def send(self,message):
 		try:
 			self.sock.send(bytes(message, encoding='utf-8'))
-		except:
-			self.user_count -= 1
-			self.connections.remove(conn)
+		except ConnectionAbortedError:
 			warnings.warn("Warning: connection tunnel has been broken. Disconnected from server.")
 	def receive(self):
 		try:
 			return self.sock.recv(4096).decode()
-		else:
+		except ConnectionAbortedError:
 			warnings.warn("Warning: connection tunnel has been broken. Disconnected from server.")
 			return None
 	def recieve(self,conn):
@@ -43,22 +41,29 @@ class Server:
 	def send(self,conn,message):
 		try:
 			conn.send(bytes(message, encoding='utf-8'))
-		except:
-			self.connections.remove(conn)
+		except ConnectionAbortedError:
+			try:
+				self._connrem(conn)
+			except ValueError:
+				pass
 			self.user_count = len(self.connections)
 			warnings.warn("Warning: connection tunnel has been broken. User has disconnected.")
 	def sendall(self,message):
 		for conn, addr in self.connections:
 			try:
 				self.send(conn, message)
-			except:
-				self.connections.remove(conn)
+			except ConnectionAbortedError:
+				try:
+					self._connrem(conn)
+				except ValueError:
+					pass
 				self.user_count = len(self.connections)
 				warnings.warn("Warning: connection tunnel for " + addr[0] + " has been broken. User has disconnected.")
 	def receive(self,conn):
 		try:
 			return conn.recv(4096).decode()
-		else:
+		except ConnectionAbortedError:
+			self._connrem(conn)
 			warnings.warn("Warning: connection tunnel has been broken. User has disconnected.")
 			return None
 	def recieve(self,conn):
@@ -83,13 +88,18 @@ class Server:
 		while True:
 			if self.stoplistening == 0:
 				conn, addr = self.sock.accept()
-				if self.stoplistening == 0:
+				if self.stoplistening == 1:
 					pass
 				else:
 					self.connections.append((conn, addr))
 					self.user_count = len(self.connections)
 			else:
 				break
+	def _connrem(self,conn):
+		for tup in self.connections:
+			if tup[0] == conn:
+				self.connections.remove(tup)
+
 class ListenThreadActive(Exception):
 	def __init__(self, message):
 		self.message = message
