@@ -2,6 +2,56 @@
 
 Shoes is a module for Python 3 that makes sockets easier for users, while retaining the normal sockets function.
 
+## FAQ
+
+### What is shoes?
+
+Look up like three lines mate!
+
+### Why should I use shoes?
+
+You shouldn't, if you're experienced with sockets. This is a toned-down wrapper for sockets that is meant for new programmers. It provides a far easier interface for creating socket servers and clients.
+
+An example of this being easier: let's say we wanted to make a server that sent a message "Hello!" to all the connected users every second. We need notice if the user is disconnected as well. Here's the code in the regular `socket` module:
+
+```import time
+import socket
+import threading
+sock=socket.socket()
+sock.bind("0.0.0.0",11111)
+sock.listen(0)
+conns=[]
+def listener():
+	global conns
+	while True:
+		conn,addr=sock.accept()
+		conns.append(conn)
+thread1=threading.Thread(target=listener)
+thread1.daemon=True
+thread1.start()
+while 1:
+	time.sleep(1)
+	for conn in conns:
+		try:
+			conn.send(bytes("Hello!",encoding='utf-8'))
+		except:
+			print("User has disconnected!")```
+
+...and here's the code in the `shoes` module:
+
+
+```import time
+import shoes
+sock=shoes.Server("0.0.0.0",11111)
+sock.listen()
+while 1:
+	time.sleep(1)
+	sock.sendall("Hello!")```
+
+A pretty vast difference, huh? It takes up roughly 4x less space than vanilla `socket`.
+
+If you are an experienced developer that doesn't really need the fancy/cool stuff from `socket` and just wants a minimalistic way to manage sockets then this module can support that want.
+
 ## Documentation
 
 ### shoes.Socket(ip,port)
@@ -17,7 +67,10 @@ A basic `Socket` class, used for connecting to servers.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * `message` -- *(str)* The message to send to the server
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;receive()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns decoded data from the server.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns decoded data from the server. This is also aliased as "recieve" because I don't know how to spell.
+
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;disconnect()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Disconnects from the server.
 
 ### shoes.Server(ip,port)
 
@@ -33,8 +86,13 @@ A basic `Server` class, used for starting a server. Note: the server must be lis
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * `message` -- *(str)* The message to send to the client `conn`
 
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sendall(message)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sends a message to all connected clients.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * `message` -- *(str)* The message to send to the client `conn`
+
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;receive(conn)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns received data from a connected client.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns received data from a connected client. This is also aliased as "recieve" because I don't know how to spell.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * `conn` -- *(socket.socket)* The connection socket to the client to send the message to
 

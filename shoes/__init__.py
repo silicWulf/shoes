@@ -16,9 +16,17 @@ class Socket:
 		except:
 			self.user_count -= 1
 			self.connections.remove(conn)
-			warnings.warn("Warning: connection tunnel has been broken. User has disconnected.")
+			warnings.warn("Warning: connection tunnel has been broken. Disconnected from server.")
 	def receive(self):
-		return self.sock.recv(4096).decode()
+		try:
+			return self.sock.recv(4096).decode()
+		else:
+			warnings.warn("Warning: connection tunnel has been broken. Disconnected from server.")
+			return None
+	def recieve(self,conn):
+		return self.receive(conn)
+	def disconnect(self):
+		self.sock.disconnect()
 
 
 class Server:
@@ -36,11 +44,25 @@ class Server:
 		try:
 			conn.send(bytes(message, encoding='utf-8'))
 		except:
-			self.user_count -= 1
 			self.connections.remove(conn)
+			self.user_count = len(self.connections)
 			warnings.warn("Warning: connection tunnel has been broken. User has disconnected.")
+	def sendall(self,message):
+		for conn, addr in self.connections:
+			try:
+				self.send(conn, message)
+			except:
+				self.connections.remove(conn)
+				self.user_count = len(self.connections)
+				warnings.warn("Warning: connection tunnel for " + addr[0] + " has been broken. User has disconnected.")
 	def receive(self,conn):
-		return conn.recv(4096).decode()
+		try:
+			return conn.recv(4096).decode()
+		else:
+			warnings.warn("Warning: connection tunnel has been broken. User has disconnected.")
+			return None
+	def recieve(self,conn):
+		return self.receive(conn)
 	def listen(self):
 		try:
 			self.listenthread = threading.Thread(target = self._listendaemon, args = ())
@@ -57,7 +79,7 @@ class Server:
 		self.nowstopped = 0
 		self.listenthread.join()
 	def _listendaemon(self):
-		self.sock.listen(255)
+		self.sock.listen(0)
 		while True:
 			if self.stoplistening == 0:
 				conn, addr = self.sock.accept()
@@ -65,7 +87,7 @@ class Server:
 					pass
 				else:
 					self.connections.append((conn, addr))
-					self.user_count += 1
+					self.user_count = len(self.connections)
 			else:
 				break
 class ListenThreadActive(Exception):
