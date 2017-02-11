@@ -9,7 +9,7 @@ class Socket:
 		self.ip = ip
 		self.port = port
 		self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		self.sock.bind((self.ip, self.port))
+		self.sock.connect((self.ip, self.port))
 	def send(self,message):
 		try:
 			self.sock.send(bytes(message, encoding='utf-8'))
@@ -30,6 +30,7 @@ class Server:
 		self.sock = socket.socket()
 		self.stoplistening = 0
 		self.nowstopped = 0
+		self.listenthread = None
 		self.sock.bind((self.ip, self.port))
 	def send(self,conn,message):
 		try:
@@ -41,12 +42,13 @@ class Server:
 	def receive(self,conn):
 		return conn.recv(4096).decode()
 	def listen(self):
-		if self.listenthread:
-			raise ListenThreadActive("a listen thread is already active")
-		else:
+		try:
 			self.listenthread = threading.Thread(target = self._listendaemon, args = ())
 			self.listenthread.daemon = True
 			self.listenthread.start()
+		except:
+			raise ListenThreadActive("a listen thread is already active")
+			
 	def stoplisten(self):
 		self.stoplistening = 1
 		while self.nowstopped == 0:
@@ -59,8 +61,11 @@ class Server:
 		while True:
 			if self.stoplistening == 0:
 				conn, addr = self.sock.accept()
-				self.connections.append(conn)
-				self.user_count += 1
+				if self.stoplistening == 0:
+					pass
+				else:
+					self.connections.append(conn)
+					self.user_count += 1
 			else:
 				break
 class ListenThreadActive(Exception):
