@@ -13,6 +13,7 @@ A basic `Socket` class, used for connecting to servers.
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;send(message)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sends a message to the connected server.
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * `message` -- *(str)* The message to send to the server
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;receive()
@@ -27,11 +28,14 @@ A basic `Server` class, used for starting a server. Note: the server must be lis
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;send(conn,message)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sends a message to the connected client.
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * `conn` -- *(socket.socket)* The connection socket to the client to send the message to
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * `message` -- *(str)* The message to send to the client `conn`
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;receive(conn)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns received data from a connected client.
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * `conn` -- *(socket.socket)* The connection socket to the client to send the message to
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listen()
