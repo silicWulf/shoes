@@ -64,7 +64,7 @@ class Server:
 				if self.stoplistening == 0:
 					pass
 				else:
-					self.connections.append(conn)
+					self.connections.append((conn, addr))
 					self.user_count += 1
 			else:
 				break

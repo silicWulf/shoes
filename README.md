@@ -47,7 +47,7 @@ A basic `Server` class, used for starting a server. Note: the server must be lis
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stops the listening of a server to accept connections. Note: connections that have already been made will not be terminated.
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connections
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *(list)* A list of connections `socket.socket`.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *(tuple(`socket.socket`, tuple(str, int)))* A list of tuples containing a connection `socket.socket` and another tuple containing the IP address and port of the client.
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_count
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *(int)* An `int` of how many users are connected.
