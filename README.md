@@ -103,7 +103,7 @@ A basic `Server` class, used for starting a server. Note: the server must be lis
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listen()
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts the listening of a server to accept connections. 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INFO: Once listening and connections have been made between the server and client, `Server.user_count` and `Server.connections` become non-zero/None.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INFO: Once listening and connections have been made between the server and client, `Server.user_count` and `Server.connections` become non-zero/non-None.
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stoplisten()
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stops the listening of a server to accept connections. Note: connections that have already been made will not be terminated.
