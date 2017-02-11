@@ -15,7 +15,7 @@ A basic `Socket` class, used for connecting to servers.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sends a message to the connected server.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* `message` -- *(str)* The message to send to the server
 
-#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;recieve()
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;receive()
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns decoded data from the server.
 
 ### shoes.Server(ip,port)
@@ -30,8 +30,8 @@ A basic `Server` class, used for starting a server. Note: the server must be lis
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* `conn` -- *(socket.socket)* The connection socket to the client to send the message to
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* `message` -- *(str)* The message to send to the client `conn`
 
-#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;recieve(conn)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Recieves data from a connected client.
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;receive(conn)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;receives data from a connected client.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* `conn` -- *(socket.socket)* The connection socket to the client to send the message to
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listen()

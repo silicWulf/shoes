@@ -17,7 +17,7 @@ class Socket:
 			self.user_count -= 1
 			self.connections.remove(conn)
 			warnings.warn("Warning: connection tunnel has been broken. User has disconnected.")
-	def recieve(self):
+	def receive(self):
 		return self.sock.recv(4096).decode()
 
 
@@ -38,7 +38,7 @@ class Server:
 			self.user_count -= 1
 			self.connections.remove(conn)
 			warnings.warn("Warning: connection tunnel has been broken. User has disconnected.")
-	def recieve(self,conn):
+	def receive(self,conn):
 		return conn.recv(4096).decode()
 	def listen(self):
 		if self.listenthread:
