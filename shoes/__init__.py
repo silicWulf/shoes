@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 import socket
 import warnings
 import threading
@@ -17,14 +18,17 @@ class Socket:
 			warnings.warn("Warning: connection tunnel has been broken. Disconnected from server.")
 	def receive(self):
 		try:
-			return self.sock.recv(4096).decode()
+			data = self.sock.recv(4096).decode()
+			if data == chr(402): return None
+			else: return data
 		except ConnectionAbortedError:
 			warnings.warn("Warning: connection tunnel has been broken. Disconnected from server.")
 			return None
 	def recieve(self,conn):
 		return self.receive(conn)
 	def disconnect(self):
-		self.sock.disconnect()
+		self.sock.shutdown(2)
+		self.sock.close()
 
 
 class Server:
@@ -83,6 +87,10 @@ class Server:
 		self.stoplistening = 0
 		self.nowstopped = 0
 		self.listenthread.join()
+	def autorefresh(self):
+		self.conncheckthread = threading.Thread(target = self._connrefresh)
+		self.conncheckthread.daemon = True
+		self.conncheckthread.start()
 	def _listendaemon(self):
 		self.sock.listen(0)
 		while True:
@@ -99,6 +107,14 @@ class Server:
 		for tup in self.connections:
 			if tup[0] == conn:
 				self.connections.remove(tup)
+	def _connrefresh(self):
+		while 1:
+			time.sleep(0.3)
+			for conn, addr in self.connections:
+				conn.send(bytes(chr(402), encoding = 'utf-8'))
+				if conn._closed == None:
+					self._connrem(conn)
+					self.user_count = len(self.connections)
 
 class ListenThreadActive(Exception):
 	def __init__(self, message):
