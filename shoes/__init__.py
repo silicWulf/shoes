@@ -111,8 +111,9 @@ class Server:
 		while 1:
 			time.sleep(0.3)
 			for conn, addr in self.connections:
-				conn.send(bytes(chr(402), encoding = 'utf-8'))
-				if conn._closed == None:
+				try:
+					conn.send(bytes(chr(402), encoding = 'utf-8'))
+				except:
 					self._connrem(conn)
 					self.user_count = len(self.connections)
 
