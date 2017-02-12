@@ -14,14 +14,14 @@ class Socket:
 	def send(self,message):
 		try:
 			self.sock.send(bytes(message, encoding='utf-8'))
-		except ConnectionAbortedError:
+		except:
 			warnings.warn("Warning: connection tunnel has been broken. Disconnected from server.")
 	def receive(self):
 		try:
 			data = self.sock.recv(4096).decode()
 			if data == chr(402): return None
 			else: return data
-		except ConnectionAbortedError:
+		except:
 			warnings.warn("Warning: connection tunnel has been broken. Disconnected from server.")
 			return None
 	def recieve(self,conn):
@@ -45,7 +45,7 @@ class Server:
 	def send(self,conn,message):
 		try:
 			conn.send(bytes(message, encoding='utf-8'))
-		except ConnectionAbortedError:
+		except:
 			try:
 				self._connrem(conn)
 			except ValueError:
@@ -56,7 +56,7 @@ class Server:
 		for conn, addr in self.connections:
 			try:
 				self.send(conn, message)
-			except ConnectionAbortedError:
+			except:
 				try:
 					self._connrem(conn)
 				except ValueError:
@@ -66,7 +66,7 @@ class Server:
 	def receive(self,conn):
 		try:
 			return conn.recv(4096).decode()
-		except ConnectionAbortedError:
+		except:
 			self._connrem(conn)
 			warnings.warn("Warning: connection tunnel has been broken. User has disconnected.")
 			return None
