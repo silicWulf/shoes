@@ -29,6 +29,11 @@ class Socket:
 	def disconnect(self):
 		self.sock.shutdown(2)
 		self.sock.close()
+	def timeout(self,n):
+		try:
+			self.sock.settimeout(n)
+		except: raise TypeError
+
 
 
 class Server:
@@ -91,6 +96,10 @@ class Server:
 		self.conncheckthread = threading.Thread(target = self._connrefresh)
 		self.conncheckthread.daemon = True
 		self.conncheckthread.start()
+	def timeout(self,n):
+		try:
+			self.sock.settimeout(n)
+		except: raise TypeError
 	def _listendaemon(self):
 		self.sock.listen(0)
 		while True:

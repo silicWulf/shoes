@@ -76,6 +76,12 @@ A basic `Socket` class, used for connecting to servers.
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;disconnect()
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Disconnects from the server.
 
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timeout(seconds)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the timeout for most socket functions to seconds `seconds`.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * `seconds` -- *(int)* The number of seconds that the timeout should be set to. Can also be `None` to set no timeout.
+
+
 ### shoes.Server(ip,port)
 
 A basic `Server` class, used for starting a server. Note: the server must be listening in order to accept any connections.
@@ -110,6 +116,11 @@ A basic `Server` class, used for starting a server. Note: the server must be lis
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;autorefresh()
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This function starts updating the `user_count` and `connections` as much as possible, not just when an attempt to send or receieve from a connection is made. NOTE: THIS PRODUCES ERRORS IF THE CLIENT IS NOT USING THIS MODULE! This is because in order to keep the connections updated, it needs to send a character that can cause errors with programs that listen and interpret every single thing sent to it.
+
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timeout(seconds)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the timeout for most socket functions to seconds `seconds`.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * `seconds` -- *(int)* The number of seconds that the timeout should be set to. Can also be `None` to set no timeout.
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connections
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *(list(tuple(`socket.socket`, tuple(str, int))))* (jeez that was a mouthful) A list of tuples containing a connection `socket.socket` and another tuple containing the IP address and port of the client.
