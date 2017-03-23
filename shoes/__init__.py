@@ -1,1 +1,2 @@
-from . import Socket, Server
+from Socket import Socket
+from Server import Server
